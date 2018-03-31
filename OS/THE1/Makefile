@@ -1,0 +1,6 @@
+all:
+	gcc -o prey prey.c
+	gcc -o hunter hunter.c
+	gcc -o server server.c
+clean:
+	rm hunter prey server
