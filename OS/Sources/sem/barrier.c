@@ -17,7 +17,7 @@ void waitbarrier()
 {
     sem_wait(smutex);
     count++;
-    if (count == nthreads) { 
+    if (count == nthreads) {
         sem_post(smutex); /* release mutex */
         printf("let the games begin\n");
         sem_post(sbarrier); /* unblock one thread */
@@ -41,14 +41,14 @@ void waitbarrier()
 
 
 
-void *barriertest(void *p) 
+void *barriertest(void *p)
 {
     int i;
     char *name = (char *) p;
 
 
     /* wait for a while */
-    usleep((rand() % 15+1) * WAIT ); 
+    usleep((rand() % 15+1) * WAIT );
     printf("%s ready for waitbarrier\n", name);
     waitbarrier();
     printf("%s starts\n", name);
@@ -80,10 +80,11 @@ int main() {
     smutex = sem_open("barrier_sem_mutex",O_CREAT,0600,1);
 
     nthreads = sizeof(names)/sizeof(names[0]);
-    for (i = 0 ; i < nthreads; i++) 
+    printf(" nthreads = %d\n",nthreads );
+    for (i = 0 ; i < nthreads; i++)
         pthread_create(tids+i, NULL, barriertest, (void *) names[i]);
 
-    for (i = 0 ; i < nthreads; i++) 
+    for (i = 0 ; i < nthreads; i++)
         pthread_join(tids[i], NULL);
 
     return 0;

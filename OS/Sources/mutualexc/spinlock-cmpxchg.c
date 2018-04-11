@@ -15,11 +15,11 @@ int cmpxchg(int *ptr, int old, int new) {
                 "r": new, any register as %2 readonly
 		expands: EAX = old; cmpxchgl new, *ptr ; old = EAX
 	*/
-		
+
 	asm volatile("lock; cmpxchgl %2,%1"         \
 			: "+a" (old), "+m" (*ptr)   \
 			: "r" (new)		    \
-			: "memory");         
+			: "memory");
 	return old;
 }
 
@@ -29,10 +29,10 @@ int cmpxchg(int *ptr, int old, int new) {
 */
 
 void lock(int *lockvar) {
-	/* while lockvars value is 1 
+	/* while lockvars value is 1
 	   spinlock, until lockvar is 0,
 	   then atomically set it to 1 */
-	while (cmpxchg(lockvar, 0, 1)) 
+	while (cmpxchg(lockvar, 0, 1))
 		/*  nothing */ ;
 
 }
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 	int nthreads;
 
 	lockvar = 0;
-	
+
 	if (argc < 2)
 		nthreads = 2;
 	else {
@@ -99,6 +99,3 @@ int main(int argc, char *argv[]) {
 	printf("Expected: %d, Result: %d\n", nthreads*INCR, x);
 	return 0;
 }
-
-
-

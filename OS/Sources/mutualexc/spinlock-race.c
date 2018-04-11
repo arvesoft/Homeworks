@@ -4,7 +4,7 @@
 #include<unistd.h>
 #include<sched.h>
 
-#define INCR 1000000
+#define INCR 100000
 
 
 void lock(int *lockvar) {
@@ -34,11 +34,14 @@ void *increment(void *p)
 {
 	int n = * (int *)p;
 	int i;
+	//lock(&lockvar);
 	for (i=0; i < INCR; i++) {
 		lock(&lockvar);
+		//printf(" x = %d\n",x);
 		x = x + 1;
 		unlock(&lockvar);
 	}
+	//unlock(&lockvar);
 	printf("%d finished\n", n);
 }
 
@@ -49,7 +52,7 @@ int main(int argc, char *argv[]) {
 	int nthreads;
 
 	lockvar = 0;
-	
+
 	if (argc < 2)
 		nthreads = 2;
 	else {
@@ -78,6 +81,3 @@ int main(int argc, char *argv[]) {
 	printf("Expected: %d, Result: %d\n", nthreads*INCR, x);
 	return 0;
 }
-
-
-
