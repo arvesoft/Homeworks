@@ -77,9 +77,9 @@ void initCurses(){
 
 void startCurses() {
     initCurses();
-    
+
     getDimensions();
-    
+
     int i,j;
     for (i = 0; i < GRIDSIZE; i++)
         for (j = 0; j < GRIDSIZE; j++){
@@ -92,28 +92,28 @@ void endCurses() {
     refresh();
     if (gridworld != NULL) delwin(gridworld);
     gridworld = NULL;
-    
+
     endwin();
 }
 
 
 
 void drawWindow() {
-    
+
     if (COLS > 90 && LINES > 40){
         getDimensions();
         erase();
         werase(gridworld);
         if (gridworld != NULL) delwin(gridworld);
         gridworld = newwin(GRIDSIZE+2, 2*GRIDSIZE+1, offsety, offsetx);
-        
+
         wborder(gridworld, 0, 0, 0, 0, 0, 0, 0, 0);
 
         struct timespec time_now;
         clock_gettime(CLOCK_MONOTONIC, &time_now);
         double elapsed = (time_now.tv_sec - time_pre.tv_sec) * 1e3 + (time_now.tv_nsec - time_pre.tv_nsec) / 1.0e6;
         time_pre = time_now;
-        
+
         int total_actions = 0;
         int i,j;
         for (i = 0; i < GRIDSIZE; i++)
@@ -159,7 +159,7 @@ void drawWindow() {
                   }
             }
         }
-        
+
         mvprintw(0, 0, "Elapsed time since last call to drawWindow(): %5.5f               ", elapsed);
         mvprintw(1, 0, "Total number of actions per ms: %f               ", n_actions != 0 ? n_actions/elapsed:0);
         mvprintw(2, 0, "# Ants(sleep/total): (%3d/%3d) |# Foods: %3d |# Threads: %s", nsants, nants, nfoods, thr);
@@ -168,14 +168,14 @@ void drawWindow() {
 
         refresh();
         wrefresh(gridworld);
-        
+
     }
     else{
         erase();
         mvprintw(0, 0, "You need a bigger terminal window, you can resize");
         refresh();
     }
-    
+
 }
 
 #endif
