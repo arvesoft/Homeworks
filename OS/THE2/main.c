@@ -18,18 +18,34 @@ void *func(void *ant){
   char mystate = '1';
   int x = my_ant->x;
   int y = my_ant->y;
+  int myid = my_ant->id;
 
-  printf("Thread ID: %d x = %d y = %d\n", my_ant->id, my_ant->x, my_ant->y);
+  //printf("Thread ID: %d x = %d y = %d\n", my_ant->id, my_ant->x, my_ant->y);
 
   while(1){
-    usleep(1000 * getDelay());
-    int oldx = 0, oldy = 0;
+    int randomtime = rand() % 10;
+
+    usleep(1000 * (getDelay() + randomtime));
+
+
+    int oldx = x, oldy = y;
     //printf("whle\n");
     //printf("x = %d y = %d\n", x, y);
     int control = 1;
 
-      if(mystate == 'P'){
 
+      if(myid < getSleeperN()){
+
+        if(mystate == 'P')
+          putCharTo(y, x, '$');
+        else if(mystate == '1')
+          putCharTo(y, x, 'S');
+      }
+
+
+      else if(mystate == 'P'){
+
+        putCharTo(y, x, 'P');
         oldx = x;
         oldy = y;
 
@@ -265,30 +281,29 @@ void *func(void *ant){
 
 
         //          sem_wait(&mutex);
+        if(cnt1)
+          sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx - 1]);
 
-                  if(cnt1)
-                    sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx - 1]);
+        if(cnt2)
+          sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx + 1]);
 
-                  if(cnt2)
-                    sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx + 1]);
+        if(cnt3)
+          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx]);
 
-                  if(cnt3)
-                    sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx]);
+        if(cnt4)
+          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx]);
 
-                  if(cnt4)
-                    sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx]);
+        if(cnt5)
+          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx - 1]);
 
-                  if(cnt5)
-                    sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx - 1]);
+        if(cnt6)
+          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx + 1]);
 
-                  if(cnt6)
-                    sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx + 1]);
+        if(cnt7)
+          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx - 1]);
 
-                  if(cnt7)
-                    sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx - 1]);
-
-                  if(cnt8)
-                    sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx + 1]);
+        if(cnt8)
+          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx + 1]);
 
         //          sem_post(&mutex);
 
@@ -298,6 +313,7 @@ void *func(void *ant){
 
       else if(mystate == '1'){
 
+        putCharTo(y, x, '1');
         oldx = x;
         oldy = y;
 
