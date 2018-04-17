@@ -21,9 +21,8 @@ void *func(void *ant){
   int myid = my_ant->id;
 
   //printf("Thread ID: %d x = %d y = %d\n", my_ant->id, my_ant->x, my_ant->y);
-  char c;
-  while(1){
 
+  while(1){
     int now = time(NULL);
     if(now - start > my_ant->timer)
       break;
@@ -43,184 +42,9 @@ void *func(void *ant){
 
         if(mystate == 'P')
           putCharTo(y, x, '$');
-        else if(mystate == '1' || mystate == 'T')
+        else if(mystate == '1')
           putCharTo(y, x, 'S');
       }
-
-      else if(mystate == 'T'){
-        oldx = x;
-        oldy = y;
-        int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0, cnt7 = 0, cnt8 = 0;
-
-        sem_wait(&mutex);
-
-        if(x - 1 >= 0){
-          sem_wait(&semaphore[ (y) * GRIDSIZE + x - 1]);
-          cnt1 = 1;
-        }
-
-        if(x + 1 < GRIDSIZE){
-          sem_wait(&semaphore[ (y) * GRIDSIZE + x + 1]);
-          cnt2 = 1;
-        }
-
-        if(y - 1 >= 0){
-          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x]);
-          cnt3 = 1;
-        }
-
-        if(y + 1 < GRIDSIZE){
-          sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x]);
-          cnt4 = 1;
-        }
-
-        if(x - 1 >= 0 && y - 1 >= 0){
-          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
-          cnt5 = 1;
-        }
-
-        if(x + 1 < GRIDSIZE & y - 1 >= 0){
-          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
-          cnt6 = 1;
-        }
-
-        if(x - 1 >= 0 && y + 1 < GRIDSIZE){
-          sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
-          cnt7 = 1;
-        }
-
-        if(x + 1 < GRIDSIZE && y + 1 < GRIDSIZE){
-            sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
-            cnt8 = 1;
-        }
-
-        sem_post(&mutex);
-
-        int random = rand() % 8;
-        int checker = 1;
-
-
-        for(int i = 0 ; i < 8 && checker; i++, random++){
-
-          // Etrafimda yemek yok, sola bakiyorum bos mu diye
-          if(cnt1 && (random % 8 == 0)){
-            if(lookCharAt(y, x-1) == '-'){
-              putCharTo(y, x-1, '1');
-              putCharTo(y , x, '-');
-              x = x - 1;
-              checker = 0;
-            }
-          }
-
-          // Etrafimda yemek yok, saga bakiyorum bos mu diye
-          else if(cnt2 && (random % 8 == 1)){
-            if(lookCharAt(y, x+1) == '-'){
-              putCharTo(y, x+1, '1');
-              putCharTo(y , x, '-');
-              x = x + 1;
-              checker = 0;
-            }
-          }
-
-
-          // Etrafimda yemek yok, uste bakiyorum bos mu diye
-          else if(cnt3 && (random % 8 == 2)){
-            if(lookCharAt(y-1, x) == '-'){
-              putCharTo(y-1, x, '1');
-              putCharTo(y , x, '-');
-              y = y - 1;
-              checker = 0;
-            }
-          }
-
-
-          // Etrafimda yemek yok, alta bakiyorum bos mu diye
-          else if(cnt4 && (random % 8 == 3)){
-            if(lookCharAt(y+1, x) == '-'){
-              putCharTo(y+1, x, '1');
-              putCharTo(y , x, '-');
-              y = y + 1;
-              checker = 0;
-            }
-          }
-
-          // Etrafimda yemek yok, sol uste bakiyorum bos mu diye
-          else if(cnt5 && (random % 8 == 4)){
-            if(lookCharAt(y-1, x-1) == '-'){
-              putCharTo(y - 1, x - 1, '1');
-              putCharTo(y , x, '-');
-              x = x - 1;
-              y = y - 1;
-              checker = 0;
-            }
-          }
-
-          // Etrafimda yemek yok, sag uste bakiyorum bos mu diye
-          else if(cnt6 && (random % 8 == 5)){
-            if(lookCharAt(y-1, x+1) == '-'){
-              putCharTo(y-1, x+1, '1');
-              putCharTo(y , x, '-');
-              x = x + 1;
-              y = y - 1;
-              checker = 0;
-            }
-          }
-
-          // Etrafimda yemek yok, sol alta bakiyorum bos mu diye
-          else if(cnt7 && (random % 8 == 6)){
-            if(lookCharAt(y+1, x-1) == '-'){
-              putCharTo(y+1, x-1, '1');
-              putCharTo(y , x, '-');
-              x = x - 1;
-              y = y + 1;
-              checker = 0;
-            }
-          }
-
-          // Etrafimda yemek yok, sag alta bakiyorum bos mu diye
-          else if(cnt8 && (random % 8 == 7)){
-            if(lookCharAt(y + 1, x + 1) == '-'){
-              putCharTo(y + 1, x + 1, '1');
-              putCharTo(y , x, '-');
-              x = x + 1;
-              y = y + 1;
-              checker = 0;
-            }
-          }
-        }
-
-
-        if(!checker)
-          mystate = '1';
-
-
-
-        if(cnt1)
-          sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx - 1]);
-
-        if(cnt2)
-          sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx + 1]);
-
-        if(cnt3)
-          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx]);
-
-        if(cnt4)
-          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx]);
-
-        if(cnt5)
-          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx - 1]);
-
-        if(cnt6)
-          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx + 1]);
-
-        if(cnt7)
-          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx - 1]);
-
-        if(cnt8)
-          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx + 1]);
-
-      }
-
 
 
       else if(mystate == 'P'){
@@ -276,49 +100,57 @@ void *func(void *ant){
         sem_post(&mutex);
 
         if(cnt1 && lookCharAt(y, x-1) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
       // Bende yemek yoksa ve sagimda yemek varsa
         else if(cnt2 && lookCharAt(y, x+1) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
 
       // Bende yemek yoksa ve ustumde yemek varsa
         else if(cnt3 && lookCharAt(y-1, x) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
 
       // Bende yemek yoksa ve altimda yemek varsa
 
         else if(cnt4 && lookCharAt(y+1, x) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
 
 
       // Bende yemek yoksa ve sol ustumde yemek varsa
         else if(cnt5 && lookCharAt(y - 1, x - 1) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
 
       // Bende yemek yoksa ve sag ustumde yemek varsa
         else if(cnt6 && lookCharAt(y-1, x+1) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
 
       // Bende yemek yoksa ve sol altimda yemek varsa
         else if(cnt7 && lookCharAt(y+1, x-1) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
       // Bende yemek yoksa ve sag altimda yemek varsa
         else if(cnt8 && lookCharAt(y + 1, x + 1) == 'o'){
-          mystate = 'T';
+          putCharTo(y , x, 'o');
+          mystate = '1';
         }
 
         int random = rand() % 8;
@@ -330,14 +162,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, sola bakiyorum bos mu diye
           if(cnt1 && (random % 8 == 0)){
             if(lookCharAt(y, x-1) == '-'){
-              if(mystate == 'T'){
-                putCharTo(y , x, 'o');
+              if(mystate == '1')
                 putCharTo(y, x-1, '1');
-              }
               else{
                 putCharTo(y, x-1, 'P');
                 putCharTo(y, x, '-');
-                mystate = 'P';
               }
               x = x - 1;
               checker = 0;
@@ -347,14 +176,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, saga bakiyorum bos mu diye
           else if(cnt2 && (random % 8 == 1)){
             if(lookCharAt(y, x+1) == '-'){
-              if(mystate == 'T'){
-                putCharTo(y , x, 'o');
+              if(mystate == '1')
                 putCharTo(y, x+1, '1');
-              }
               else{
                 putCharTo(y, x+1, 'P');
                 putCharTo(y, x, '-');
-                mystate = 'P';
               }
               x = x + 1;
               checker = 0;
@@ -365,14 +191,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, uste bakiyorum bos mu diye
           else if(cnt3 && (random % 8 == 2)){
             if(lookCharAt(y-1, x) == '-'){
-              if(mystate == 'T'){
-                putCharTo(y , x, 'o');
+              if(mystate == '1')
                 putCharTo(y-1, x, '1');
-              }
               else{
                 putCharTo(y-1, x, 'P');
                 putCharTo(y, x, '-');
-                mystate = 'P';
               }
               y = y - 1;
               checker = 0;
@@ -383,14 +206,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, alta bakiyorum bos mu diye
           else if(cnt4 && (random % 8 == 3)){
             if(lookCharAt(y+1, x) == '-'){
-              if(mystate == 'T'){
-                putCharTo(y , x, 'o');
+              if(mystate == '1')
                 putCharTo(y+1, x, '1');
-              }
               else{
                 putCharTo(y+1, x, 'P');
                 putCharTo(y, x, '-');
-                mystate = 'P';
               }
               y = y + 1;
               checker = 0;
@@ -400,14 +220,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, sol uste bakiyorum bos mu diye
           else if(cnt5 && (random % 8 == 4)){
             if(lookCharAt(y-1, x-1) == '-'){
-              if(mystate == 'T'){
+              if(mystate == '1')
                 putCharTo(y - 1, x - 1, '1');
-                putCharTo(y , x, 'o');
-              }
               else{
                 putCharTo(y - 1, x - 1, 'P');
                 putCharTo(y , x , '-');
-                mystate = 'P';
               }
               x = x - 1;
               y = y - 1;
@@ -418,14 +235,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, sag uste bakiyorum bos mu diye
           else if(cnt6 && (random % 8 == 5)){
             if(lookCharAt(y-1, x+1) == '-'){
-              if(mystate == 'T'){
+              if(mystate == '1')
                 putCharTo(y-1, x+1, '1');
-                putCharTo(y , x, 'o');
-              }
               else{
                 putCharTo(y-1, x+1, 'P');
                 putCharTo(y, x, '-');
-                mystate = 'P';
               }
               x = x + 1;
               y = y - 1;
@@ -436,14 +250,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, sol alta bakiyorum bos mu diye
           else if(cnt7 && (random % 8 == 6)){
             if(lookCharAt(y+1, x-1) == '-'){
-              if(mystate == 'T'){
+              if(mystate == '1')
                 putCharTo(y+1, x-1, '1');
-                putCharTo(y , x, 'o');
-              }
               else{
                 putCharTo(y+1, x-1, 'P');
                 putCharTo(y, x, '-');
-                mystate = 'P';
               }
               x = x - 1;
               y = y + 1;
@@ -454,14 +265,11 @@ void *func(void *ant){
           // Etrafimda yemek yok, sag alta bakiyorum bos mu diye
           else if(cnt8 && (random % 8 == 7)){
             if(lookCharAt(y + 1, x + 1) == '-'){
-              if(mystate == 'T'){
+              if(mystate == '1')
                 putCharTo(y + 1, x + 1, '1');
-                putCharTo(y , x, 'o');
-              }
               else{
                 putCharTo(y + 1, x + 1, 'P');
                 putCharTo(y, x, '-');
-                mystate = 'P';
               }
               x = x + 1;
               y = y + 1;
@@ -500,8 +308,175 @@ void *func(void *ant){
         if(cnt8)
           sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx + 1]);
 
-        //          sem_post(&mutex
+        //          sem_post(&mutex);
 
+        if(mystate == '1'){
+          usleep(1000 * (getDelay() + randomtime));
+          oldx = x;
+          oldy = y;
+
+          sem_wait(&mutex);
+
+          if(x - 1 >= 0){
+            sem_wait(&semaphore[ (y) * GRIDSIZE + x - 1]);
+            cnt1 = 1;
+          }
+
+          if(x + 1 < GRIDSIZE){
+            sem_wait(&semaphore[ (y) * GRIDSIZE + x + 1]);
+            cnt2 = 1;
+          }
+
+          if(y - 1 >= 0){
+            sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x]);
+            cnt3 = 1;
+          }
+
+          if(y + 1 < GRIDSIZE){
+            sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x]);
+            cnt4 = 1;
+          }
+
+          if(x - 1 >= 0 && y - 1 >= 0){
+            sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
+            cnt5 = 1;
+          }
+
+          if(x + 1 < GRIDSIZE & y - 1 >= 0){
+            sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
+            cnt6 = 1;
+          }
+
+          if(x - 1 >= 0 && y + 1 < GRIDSIZE){
+            sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
+            cnt7 = 1;
+          }
+
+          if(x + 1 < GRIDSIZE && y + 1 < GRIDSIZE){
+              sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
+              cnt8 = 1;
+          }
+
+          sem_post(&mutex);
+
+          random = rand() % 8;
+          checker = 1;
+
+
+          for(int i = 0 ; i < 8 && checker; i++, random++){
+
+            // Etrafimda yemek yok, sola bakiyorum bos mu diye
+            if(cnt1 && (random % 8 == 0)){
+              if(lookCharAt(y, x-1) == '-'){
+                putCharTo(y, x-1, '1');
+                putCharTo(y , x, '-');
+                x = x - 1;
+                checker = 0;
+              }
+            }
+
+            // Etrafimda yemek yok, saga bakiyorum bos mu diye
+            else if(cnt2 && (random % 8 == 1)){
+              if(lookCharAt(y, x+1) == '-'){
+                putCharTo(y, x+1, '1');
+                putCharTo(y , x, '-');
+                x = x + 1;
+                checker = 0;
+              }
+            }
+
+
+            // Etrafimda yemek yok, uste bakiyorum bos mu diye
+            else if(cnt3 && (random % 8 == 2)){
+              if(lookCharAt(y-1, x) == '-'){
+                putCharTo(y-1, x, '1');
+                putCharTo(y , x, '-');
+                y = y - 1;
+                checker = 0;
+              }
+            }
+
+
+            // Etrafimda yemek yok, alta bakiyorum bos mu diye
+            else if(cnt4 && (random % 8 == 3)){
+              if(lookCharAt(y+1, x) == '-'){
+                putCharTo(y+1, x, '1');
+                putCharTo(y , x, '-');
+                y = y + 1;
+                checker = 0;
+              }
+            }
+
+            // Etrafimda yemek yok, sol uste bakiyorum bos mu diye
+            else if(cnt5 && (random % 8 == 4)){
+              if(lookCharAt(y-1, x-1) == '-'){
+                putCharTo(y - 1, x - 1, '1');
+                putCharTo(y , x, '-');
+                x = x - 1;
+                y = y - 1;
+                checker = 0;
+              }
+            }
+
+            // Etrafimda yemek yok, sag uste bakiyorum bos mu diye
+            else if(cnt6 && (random % 8 == 5)){
+              if(lookCharAt(y-1, x+1) == '-'){
+                putCharTo(y-1, x+1, '1');
+                putCharTo(y , x, '-');
+                x = x + 1;
+                y = y - 1;
+                checker = 0;
+              }
+            }
+
+            // Etrafimda yemek yok, sol alta bakiyorum bos mu diye
+            else if(cnt7 && (random % 8 == 6)){
+              if(lookCharAt(y+1, x-1) == '-'){
+                putCharTo(y+1, x-1, '1');
+                putCharTo(y , x, '-');
+                x = x - 1;
+                y = y + 1;
+                checker = 0;
+              }
+            }
+
+            // Etrafimda yemek yok, sag alta bakiyorum bos mu diye
+            else if(cnt8 && (random % 8 == 7)){
+              if(lookCharAt(y + 1, x + 1) == '-'){
+                putCharTo(y + 1, x + 1, '1');
+                putCharTo(y , x, '-');
+                x = x + 1;
+                y = y + 1;
+                checker = 0;
+              }
+            }
+          }
+
+          if(cnt1)
+            sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx - 1]);
+
+          if(cnt2)
+            sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx + 1]);
+
+          if(cnt3)
+            sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx]);
+
+          if(cnt4)
+            sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx]);
+
+          if(cnt5)
+            sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx - 1]);
+
+          if(cnt6)
+            sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx + 1]);
+
+          if(cnt7)
+            sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx - 1]);
+
+          if(cnt8)
+            sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx + 1]);
+
+        }
 
       }
 
