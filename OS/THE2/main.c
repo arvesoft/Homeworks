@@ -21,7 +21,7 @@ void *func(void *ant){
   int myid = my_ant->id;
   sem_post(&mutex);
 
-  printf("Thread ID: %d x = %d y = %d\n", my_ant->id, my_ant->x, my_ant->y);
+  //printf("Thread ID: %d x = %d y = %d\n", my_ant->id, my_ant->x, my_ant->y);
   char c;
   while(1){
 
@@ -49,7 +49,6 @@ void *func(void *ant){
       }
 
       else if(mystate == 'T'){
-        putCharTo(y,x,'T');
         oldx = x;
         oldy = y;
         int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0, cnt7 = 0, cnt8 = 0;
