@@ -569,6 +569,7 @@ void *func(void *ant){
 int a,b;
 int main(int argc, char *argv[]) {
     srand(time(NULL));
+    int start = time(NULL);
 
     int semmax = GRIDSIZE * GRIDSIZE;
 
@@ -631,6 +632,10 @@ int main(int argc, char *argv[]) {
     // have to ensure that.
     char c;
     while (TRUE) {
+
+        int now = time(NULL);
+        if(now - start > maxsim)
+          break;
         drawWindow();
 
         c = 0;
