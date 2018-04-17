@@ -3,6 +3,7 @@
 #include <semaphore.h>
 
 sem_t semaphore[GRIDSIZE * GRIDSIZE];
+sem_t mutex;
 
 struct anttype {
 
@@ -21,235 +22,263 @@ void *func(void *ant){
   printf("Thread ID: %d x = %d y = %d\n", my_ant->id, my_ant->x, my_ant->y);
 
   while(1){
-    //usleep(1000 * getDelay());
-    printf("whle\n");
-    printf("x = %d y = %d\n", x, y);
+    usleep(1000 * getDelay());
+    int oldx = 0, oldy = 0;
+    //printf("whle\n");
+    //printf("x = %d y = %d\n", x, y);
     int control = 1;
       if(mystate == '1'){
-        // Bende yemek yoksa ve solumda yemek varsa
+
+        oldx = x;
+        oldy = y;
+
+        int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0, cnt7 = 0, cnt8 = 0;
+
+        sem_wait(&mutex);
+
         if(x - 1 >= 0){
-          printf("sem1 kitleyecek\n");
           sem_wait(&semaphore[ (y) * GRIDSIZE + x - 1]);
-          if(lookCharAt(y, x-1) == 'o'){
+          cnt1 = 1;
+        }
+
+        if(x + 1 < GRIDSIZE){
+          sem_wait(&semaphore[ (y) * GRIDSIZE + x + 1]);
+          cnt2 = 1;
+        }
+
+        if(y - 1 >= 0){
+          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x]);
+          cnt3 = 1;
+        }
+
+        if(y + 1 < GRIDSIZE){
+          sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x]);
+          cnt4 = 1;
+        }
+
+        if(x - 1 >= 0 && y - 1 >= 0){
+          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
+          cnt5 = 1;
+        }
+
+        if(x + 1 < GRIDSIZE & y - 1 >= 0){
+          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
+          cnt6 = 1;
+        }
+
+        if(x - 1 >= 0 && y + 1 < GRIDSIZE){
+          sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
+          cnt7 = 1;
+        }
+
+        if(x + 1 < GRIDSIZE && y + 1 < GRIDSIZE){
+            sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
+            cnt8 = 1;
+        }
+
+        sem_post(&mutex);
+
+        // Bende yemek yoksa ve solumda yemek varsa
+          if(cnt1 && lookCharAt(y, x-1) == 'o'){
             putCharTo(y, x-1, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             x = x - 1;
-            control = 0;
-          }sem_post(&semaphore[ (y) * GRIDSIZE + x - 1]);
-        }
+          }
 
         // Bende yemek yoksa ve sagimda yemek varsa
-        if(x + 1 < GRIDSIZE){
-          printf("sem2 kitleyecek\n");
-          sem_wait(&semaphore[ (y) * GRIDSIZE + x + 1]);
-          printf("sem2 kitledi\n");
-          if(lookCharAt(y, x+1) == 'o'){
+          else if(cnt2 && lookCharAt(y, x+1) == 'o'){
             putCharTo(y, x+1, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             x = x + 1;
-            control = 0;
-            printf("girmemeli\n");
           }
-          printf("sem2\n");
-          sem_post(&semaphore[ (y) * GRIDSIZE + x + 1]);
-        }
 
 
         // Bende yemek yoksa ve ustumde yemek varsa
-        if(y - 1 >= 0){
-          printf("sem3 kitleyecek\n");
-          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x]);
-          if(lookCharAt(y-1, x) == 'o'){
+          else if(cnt3 && lookCharAt(y-1, x) == 'o'){
             putCharTo(y-1, x, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             y = y - 1;
-            control = 0;
-          }sem_post(&semaphore[ (y - 1) * GRIDSIZE + x]);
-        }
+          }
+
 
         // Bende yemek yoksa ve altimda yemek varsa
-        if(y + 1 < GRIDSIZE){
-          printf("sem4 kitleyecek\n");
-          sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x]);
-          if(lookCharAt(y+1, x) == 'o'){
+
+          else if(cnt4 && lookCharAt(y+1, x) == 'o'){
             putCharTo(y+1, x, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             y = y + 1;
-            control = 0;
-          }sem_post(&semaphore[ (y + 1) * GRIDSIZE + x]);
-        }
+          }
+
 
 
         // Bende yemek yoksa ve sol ustumde yemek varsa
-        if(x - 1 >= 0 && y - 1 >= 0){
-          printf("sem5 kitleyecek\n");
-          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
-          if(lookCharAt(y - 1, x - 1) == 'o'){
+          else if(cnt5 && lookCharAt(y - 1, x - 1) == 'o'){
             putCharTo(y - 1, x - 1, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             x = x - 1;
             y = y - 1;
-            control = 0;
-          }sem_post(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
-        }
+          }
 
 
         // Bende yemek yoksa ve sag ustumde yemek varsa
-        if(x + 1 < GRIDSIZE & y - 1 >= 0){
-          printf("sem6 kitleyecek\n");
-          sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
-          if(lookCharAt(y-1, x+1) == 'o'){
+          else if(cnt6 && lookCharAt(y-1, x+1) == 'o'){
             putCharTo(y-1, x+1, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             x = x + 1;
             y = y - 1;
-            control = 0;
-          }sem_post(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
-        }
+          }
 
 
         // Bende yemek yoksa ve sol altimda yemek varsa
-        if(x - 1 >= 0 && y + 1 < GRIDSIZE){
-          printf("sem7 kitleyecek\n");
-          sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
-          if(lookCharAt(y+1, x-1) == 'o'){
+          else if(cnt7 && lookCharAt(y+1, x-1) == 'o'){
             putCharTo(y+1, x-1, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             x = x - 1;
             y = y + 1;
-            control = 0;
-          }sem_post(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
-        }
+          }
 
         // Bende yemek yoksa ve sag altimda yemek varsa
-        if(x + 1 < GRIDSIZE && y + 1 < GRIDSIZE){
-          printf("sem8 kitleyecek\n");
-          sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
-          if(lookCharAt(y + 1, x + 1) == 'o'){
+          else if(cnt8 && lookCharAt(y + 1, x + 1) == 'o'){
             putCharTo(y + 1, x + 1, 'P');
             putCharTo(y , x, '-');
             mystate = 'P';
             x = x + 1;
             y = y + 1;
-            control = 0;
-          }sem_post(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
-        }
+          }
 
-        if(control){ //Etrafimda yemek yok hareket etmem lazim
-          printf("else\n");
+
+        else{ //Etrafimda yemek yok hareket etmem lazim
             int random = rand() % 8;
-            random = 0;
             int checker = 1;
 
 
             for(int i = 0 ; i < 8 && checker; i++, random++){
 
               // Etrafimda yemek yok, sola bakiyorum bos mu diye
-              if(x - 1 >= 0 && (random % 8 == 0)){
-                sem_wait(&semaphore[ (y) * GRIDSIZE + x - 1]);
+              if(cnt1 && (random % 8 == 0)){
                 if(lookCharAt(y, x-1) == '-'){
                   putCharTo(y, x-1, '1');
                   putCharTo(y , x, '-');
                   x = x - 1;
                   checker = 0;
-                  printf("girmeli\n");
-                }sem_post(&semaphore[ (y) * GRIDSIZE + x - 1]);
+                }
               }
 
               // Etrafimda yemek yok, saga bakiyorum bos mu diye
-              else if(x + 1 < GRIDSIZE && (random % 8 == 1)){
-                sem_wait(&semaphore[ (y) * GRIDSIZE + x + 1]);
+              else if(cnt2 && (random % 8 == 1)){
                 if(lookCharAt(y, x+1) == '-'){
                   putCharTo(y, x+1, '1');
                   putCharTo(y , x, '-');
                   x = x + 1;
                   checker = 0;
-                }sem_post(&semaphore[ (y) * GRIDSIZE + x + 1]);
+                }
               }
 
 
               // Etrafimda yemek yok, uste bakiyorum bos mu diye
-              else if(y - 1 >= 0 && (random % 8 == 2)){
-                sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x]);
+              else if(cnt3 && (random % 8 == 2)){
                 if(lookCharAt(y-1, x) == '-'){
                   putCharTo(y-1, x, '1');
                   putCharTo(y , x, '-');
                   y = y - 1;
                   checker = 0;
-                }sem_post(&semaphore[ (y - 1) * GRIDSIZE + x]);
+                }
               }
 
 
               // Etrafimda yemek yok, alta bakiyorum bos mu diye
-              else if(y + 1 < GRIDSIZE && (random % 8 == 3)){
-                sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x]);
+              else if(cnt4 && (random % 8 == 3)){
                 if(lookCharAt(y+1, x) == '-'){
                   putCharTo(y+1, x, '1');
                   putCharTo(y , x, '-');
                   y = y + 1;
                   checker = 0;
-                }sem_post(&semaphore[ (y + 1) * GRIDSIZE + x]);
+                }
               }
 
               // Etrafimda yemek yok, sol uste bakiyorum bos mu diye
-              else if(x - 1 >= 0 && y - 1 >= 0 && (random % 8 == 4)){
-                sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
+              else if(cnt5 && (random % 8 == 4)){
                 if(lookCharAt(y-1, x-1) == '-'){
                   putCharTo(y - 1, x - 1, '1');
                   putCharTo(y , x, '-');
                   x = x - 1;
                   y = y - 1;
                   checker = 0;
-                }sem_post(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
+                }
               }
 
               // Etrafimda yemek yok, sag uste bakiyorum bos mu diye
-              else if(x + 1 < GRIDSIZE && y - 1 >= 0 && (random % 8 == 5)){
-                sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
+              else if(cnt6 && (random % 8 == 5)){
                 if(lookCharAt(y-1, x+1) == '-'){
                   putCharTo(y-1, x+1, '1');
                   putCharTo(y , x, '-');
                   x = x + 1;
                   y = y - 1;
                   checker = 0;
-                }sem_post(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
+                }
               }
 
               // Etrafimda yemek yok, sol alta bakiyorum bos mu diye
-              else if(x - 1 >= 0 && y + 1 < GRIDSIZE && (random % 8 == 6)){
-                sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
+              else if(cnt7 && (random % 8 == 6)){
                 if(lookCharAt(y+1, x-1) == '-'){
                   putCharTo(y+1, x-1, '1');
                   putCharTo(y , x, '-');
                   x = x - 1;
                   y = y + 1;
                   checker = 0;
-                }sem_post(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
+                }
               }
 
               // Etrafimda yemek yok, sag alta bakiyorum bos mu diye
-              else if(x + 1 < GRIDSIZE && y + 1 < GRIDSIZE && (random % 8 == 7)){
-                sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
+              else if(cnt8 && (random % 8 == 7)){
                 if(lookCharAt(y + 1, x + 1) == '-'){
                   putCharTo(y + 1, x + 1, '1');
                   putCharTo(y , x, '-');
                   x = x + 1;
                   y = y + 1;
                   checker = 0;
-                }sem_post(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
+                }
               }
             }
+          }
+
+//          sem_wait(&mutex);
+
+          if(cnt1)
+            sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx - 1]);
+
+          if(cnt2)
+            sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx + 1]);
+
+          if(cnt3)
+            sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx]);
+
+          if(cnt4)
+            sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx]);
+
+          if(cnt5)
+            sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx - 1]);
+
+          if(cnt6)
+            sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx + 1]);
+
+          if(cnt7)
+            sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx - 1]);
+
+          if(cnt8)
+            sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx + 1]);
+
+//          sem_post(&mutex);
         }
       }
     }
-  }
 
 
 int a,b;
@@ -260,6 +289,7 @@ int main(int argc, char *argv[]) {
 
     for(int i = 0; i < semmax; i++)
       sem_init(&semaphore[i], 0, 1);
+    sem_init(&mutex, 0, 1);
 
     int numberofants = atoi(argv[1]);
     int numberoffoods = atoi(argv[2]);
@@ -309,14 +339,14 @@ int main(int argc, char *argv[]) {
     //printf("ant.x = %d ant.y = %d ant.id = %d\n",antstruct.x,antstruct.y,antstruct.id);
     //////////////////////////////
     // you have to have following command to initialize ncurses.
-    //startCurses();
+    startCurses();
 
     // You can use following loop in your program. But pay attention to
     // the function calls, they do not have any access control, you
     // have to ensure that.
     char c;
     while (TRUE) {
-    /*    drawWindow();
+        drawWindow();
 
         c = 0;
         c = getch();
@@ -334,14 +364,14 @@ int main(int argc, char *argv[]) {
         if (c == '/') {
             setSleeperN(getSleeperN()-1);
         }
-        usleep(DRAWDELAY);*/
+        usleep(DRAWDELAY);
 
         // each ant thread have to sleep with code similar to this
         //usleep(getDelay() * 1000 + (rand() % 5000));
     }
 
     // do not forget freeing the resources you get
-    //endCurses();
+    endCurses();
 
     return 0;
 }
