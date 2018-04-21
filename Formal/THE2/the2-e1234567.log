@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.3.17)  21 APR 2018 14:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.3.17)  21 APR 2018 14:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1661,129 +1661,134 @@ Underfull \hbox (badness 10000) in paragraph at lines 352--353
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 363--364
+Underfull \hbox (badness 10000) in paragraph at lines 357--360
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 364--365
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 373--376
+Underfull \hbox (badness 10000) in paragraph at lines 374--377
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 383--386
+Underfull \hbox (badness 10000) in paragraph at lines 384--387
 
  []
 
 [8] [9]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\hfill' on input line 399.
+(hyperref)                removing `\hfill' on input line 400.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 401--402
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 403--404
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 411--412
+Underfull \hbox (badness 10000) in paragraph at lines 404--405
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
 
  []
 
 [10]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\hfill' on input line 424.
+(hyperref)                removing `\hfill' on input line 425.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 426--428
+Underfull \hbox (badness 10000) in paragraph at lines 427--429
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 437--439
+Underfull \hbox (badness 10000) in paragraph at lines 438--440
 
  []
 
 [11]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\hfill' on input line 452.
+(hyperref)                removing `\hfill' on input line 453.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 454--455
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 456--459
+Underfull \hbox (badness 10000) in paragraph at lines 455--456
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 466--468
+Underfull \hbox (badness 10000) in paragraph at lines 457--460
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--469
 
  []
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 470--495
+Underfull \hbox (badness 10000) in paragraph at lines 471--496
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 499--500
+Underfull \hbox (badness 10000) in paragraph at lines 500--501
 
  []
 
 
-Overfull \hbox (4.12888pt too wide) in paragraph at lines 505--558
+Overfull \hbox (4.12888pt too wide) in paragraph at lines 506--559
 [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 505--558
+Underfull \hbox (badness 10000) in paragraph at lines 506--559
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 505--558
+Underfull \hbox (badness 10000) in paragraph at lines 506--559
 
  []
 
 [13]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\hfill' on input line 566.
+(hyperref)                removing `\hfill' on input line 567.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 568--569
+Underfull \hbox (badness 10000) in paragraph at lines 569--570
 
  []
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 577--578
+Underfull \hbox (badness 10000) in paragraph at lines 578--579
 
  []
 
 [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 586.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 586.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 587.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 587.
  (./the2-e1234567.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 586.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 586.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 587.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 587.
 Package rerunfilecheck Info: File `the2-e1234567.out' has not changed.
 (rerunfilecheck)             Checksum: 5F54E455D864EFDE871FF1B591CB6328;470.
  ) 
 Here is how much of TeX's memory you used:
- 36900 strings out of 492982
- 728089 string characters out of 6138579
+ 36901 strings out of 492982
+ 728108 string characters out of 6138579
  913548 words of memory out of 5000000
- 39862 multiletter control sequences out of 15000+600000
+ 39863 multiletter control sequences out of 15000+600000
  551475 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  63i,20n,101p,10472b,2071s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1799,7 +1804,7 @@ cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
 /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/fonts/
 type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on the2-e1234567.pdf (15 pages, 199062 bytes).
+Output written on the2-e1234567.pdf (15 pages, 199694 bytes).
 PDF statistics:
  242 PDF objects out of 1000 (max. 8388607)
  185 compressed objects within 2 object streams
