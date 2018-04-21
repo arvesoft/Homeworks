@@ -189,8 +189,8 @@ $L(G)=\{w \mid \;  w \in \Sigma^*;\; |w| \geq 3;\; $  \hfill \small{(2/10 pts)} 
 
 \begin{tcolorbox}
 
-$ S\rightarrow A$ $|$ $Abb$ \\
-$ A\rightarrow aA$ $|$ $bA$ $|$ $a$ $|$ $b$ 
+$ S\rightarrow aAab$ $|$ $aAaa$ $|$ $bAbb$ $|$ $bAba$\\
+$ A\rightarrow aA$ $|$ $bA$ $|$ $a$ $|$ $b$ $|$ $e$  
 
 \end{tcolorbox}
 
@@ -226,7 +226,7 @@ $Y \to CbaC$ \\
 $C \to CC \mid a \mid b \mid \varepsilon$  \\
 
 \begin{tcolorbox}
-$a^*b^*$ $|$ $(a|b)^*$ $ba$ $(a|b)^*$
+$a^+b^+$ $|$ $(a|b)^*$ $ba$ $(a|b)^*$
 \end{tcolorbox}
 
 
@@ -247,14 +247,24 @@ P   $\to$ in | on | by | with
 
 \paragraph{a)} Jane constructed automata with a pen \hfill \small{(4/20 pts)} \\
 
+First one:\\
 \begin{tcolorbox}
-\Tree [.S [.NP [.N Jane  ]] [.VP [.V constructed ] [.NP [.NP automata ] [.PP [.P with ] [.NP [.D a ] [.N pen ] ] ] ]]]]
+\Tree [.S [.NP [.N Jane  ]] [.VP [.V constructed ] [.NP [.NP [.N automata ] ] [.PP [.P with ] [.NP [.D a ] [.N pen ] ] ] ]]] 
+\end{tcolorbox}
+Second one:\\
+\begin{tcolorbox}
+\Tree [.S [.NP [.N Jane  ]] [.VP [.V constructed ] [.NP [.N automata ] ]  [.PP [.P with ] [.NP [.D a ] [.N pen ]  ] ]]] 
 \end{tcolorbox}
 
 \paragraph{b)} my book in the man built a Jane by a pen \hfill \small{(4/20 pts)} \\
 
+First one:\\
 \begin{tcolorbox}
 \Tree [.S [.NP [.NP [.D my ] [.N book ]  ] [.PP [.P in ] [.NP [.D the ] [.N man ]  ]  ]  ] [.VP [.V built ] [.NP [.D a ] [.N Jane ] ][.PP [.P by ] [.NP [.D a ] [.N pen ] ] ]  ]]
+\end{tcolorbox}
+Second one:\\
+\begin{tcolorbox}
+\Tree [.S [.NP [.NP [.D my ] [.N book ]  ] [.PP [.P in ] [.NP [.D the ] [.N man ]  ]  ]  ] [.VP [.V built ] [.NP [.NP [.D a ] [.N Jane ] ][.PP [.P by ] [.NP [.D a ] [.N pen ] ] ]  ]]]
 \end{tcolorbox}
 
 \newpage
@@ -288,7 +298,7 @@ $S \rightarrow E \rightarrow E-T  \rightarrow E-T*I \rightarrow E-T*3 \rightarro
 \paragraph{e)} Are the derivations in \textbf{c} and \textbf{d} in the same similarity class?  \hfill \small{(4/20 pts)} \\
 
 \begin{tcolorbox}
-Yes, because one of them precedes the other.
+Yes, because they can transform other one and one of them precedes other.
 \end{tcolorbox}
 
 
