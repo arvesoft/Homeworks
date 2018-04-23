@@ -392,8 +392,15 @@ int main(int argc, char *argv[]) {
         int now = time(NULL);
         if(now - start > maxsim)
           break;
+        sem_wait(&mutex);
+        for(int i = 0; i < GRIDSIZE; i++)
+          for(int j = 0; j < GRIDSIZE; j++)
+            sem_wait(&semaphore[ i * GRIDSIZE + j ]);
         drawWindow();
-
+        sem_post(&mutex);
+        for(int i = 0; i < GRIDSIZE; i++)
+          for(int j = 0; j < GRIDSIZE; j++)
+            sem_post(&semaphore[ i * GRIDSIZE + j ]);
         c = 0;
         c = getch();
 

@@ -208,8 +208,8 @@ $ A\rightarrow Aaa$ $|$ $Aab$ $|$ $Aba$ $|$ $Abb$ $|$ $e$
 $L(G)=\{w \mid \;  w \in \Sigma^*;\; n(w,a)=2\cdot n(w,b)\}$ where $n(w,x)$ is the number of $x$ symbols in $w$ \hfill \small{(3/10 pts)} \\
 
 \begin{tcolorbox}
-$ A\rightarrow BBa$ $|$ $BaB$ $|$ $aBB$ $|$ $e$ \\
-$ B\rightarrow bS$ $|$ $Sb$ 
+$ S\rightarrow BBb$ $|$ $BbB$ $|$ $bBB$ $|$ $e$ \\
+$ B\rightarrow aS$ $|$ $Sa$ 
 
 \end{tcolorbox}
 
@@ -364,8 +364,55 @@ So that, L = $\lbrace x^ny^nz^k \cup x^ny^lz^n$ $|$ $k,l,n \geq 0 \rbrace$\\
 Design a PDA to recognize language $ L=\{x^n y^{m+n} x^m \mid \; n,m \geq 0; \; n,m \in \mathbb{N}  \} $  \hfill \small{(5/30 pts)} \\
 
 \begin{tcolorbox}
-answer here ...
-\vspace{3cm} % remove this after your answer
+Answer:
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (15.8,-24.5) circle (3);
+\draw (15.8,-24.5) node {$q0$};
+\draw [black] (33.3,-12.2) circle (3);
+\draw (33.3,-12.2) node {$q1$};
+\draw [black] (53.3,-23.7) circle (3);
+\draw (53.3,-23.7) node {$q2$};
+\draw [black] (53.9,-39.1) circle (3);
+\draw (53.9,-39.1) node {$q3$};
+\draw [black] (31.3,-52) circle (3);
+\draw (31.3,-52) node {$q4$};
+\draw [black] (16.5,-37.9) circle (3);
+\draw (16.5,-37.9) node {$q5$};
+\draw [black] (16.5,-37.9) circle (2.4);
+\draw [black] (32.32,-9.377) arc (226.87498:-61.12502:2.25);
+\draw (35.14,-4.68) node [above] {$x,e\mbox{ }->\mbox{ }x$};
+\fill [black] (34.94,-9.71) -- (35.86,-9.46) -- (35.13,-8.78);
+\draw [black] (51.603,-26.16) arc (-6.86934:-294.86934:2.25);
+\draw (46.74,-28.19) node [left] {$y,x\mbox{ }->\mbox{ }e$};
+\fill [black] (50.32,-23.85) -- (49.58,-23.26) -- (49.46,-24.25);
+\draw [black] (55.223,-41.78) arc (54:-234:2.25);
+\draw (53.9,-46.35) node [below] {$y,e\mbox{ }->\mbox{ }y$};
+\fill [black] (52.58,-41.78) -- (51.7,-42.13) -- (52.51,-42.72);
+\draw [black] (28.62,-53.323) arc (-36:-324:2.25);
+\draw (24.05,-52) node [left] {$x,y\mbox{ }->\mbox{ }x$};
+\fill [black] (28.62,-50.68) -- (28.27,-49.8) -- (27.68,-50.61);
+\draw [black] (8.2,-26.1) -- (12.86,-25.12);
+\draw (7.46,-26.44) node [left] {$Start$};
+\fill [black] (12.86,-25.12) -- (11.98,-24.79) -- (12.18,-25.77);
+\draw [black] (29.13,-49.93) -- (18.67,-39.97);
+\fill [black] (18.67,-39.97) -- (18.91,-40.88) -- (19.6,-40.16);
+\draw (27.51,-44.47) node [above] {$x, $ \textdollar $ \mbox{ }->\mbox{ }e$};
+\draw [black] (18.25,-22.77) -- (30.85,-13.93);
+\fill [black] (30.85,-13.93) -- (29.9,-13.98) -- (30.48,-14.79);
+\draw (28.09,-18.85) node [below] {$e,e\mbox{ }->\mbox{ }$ \#  };
+\draw [black] (35.9,-13.7) -- (50.7,-22.2);
+\fill [black] (50.7,-22.2) -- (50.25,-21.37) -- (49.76,-22.24);
+\draw (39.83,-18.45) node [below] {$e,e\mbox{ }->\mbox{ }e$};
+\draw [black] (53.42,-26.7) -- (53.78,-36.1);
+\fill [black] (53.78,-36.1) -- (54.25,-35.28) -- (53.25,-35.32);
+\draw (53.04,-31.41) node [left] {$y,$ \# $\mbox{ }->\mbox{ }$ \textdollar };
+\draw [black] (51.29,-40.59) -- (33.91,-50.51);
+\fill [black] (33.91,-50.51) -- (34.85,-50.55) -- (34.35,-49.68);
+\draw (39.13,-45.05) node [above] {$e,e\mbox{ }->\mbox{ }e$};
+\end{tikzpicture}
+\end{center}
 \end{tcolorbox}
 
 \newpage
@@ -377,8 +424,57 @@ Simulate the PDA on strings \textit{xxy} (with only one rejecting derivation) an
 
 
 \begin{tcolorbox}
-answer here ...
-\vspace{19cm} % remove this after your answer
+Answer:
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (18,-12.7) circle (3);
+\draw (18,-12.7) node {$q0$};
+\draw [black] (40.5,-12.7) circle (3);
+\draw (40.5,-12.7) node {$q1$};
+\draw [black] (49.1,-26.4) circle (3);
+\draw (49.1,-26.4) node {$q2$};
+\draw [black] (41.8,-42.8) circle (3);
+\draw (41.8,-42.8) node {$q3$};
+\draw [black] (16,-42.8) circle (3);
+\draw (16,-42.8) node {$q4$};
+\draw [black] (11.5,-32.9) circle (3);
+\draw (11.5,-32.9) node {$q5$};
+\draw [black] (16,-22.7) circle (3);
+\draw (16,-22.7) node {$q6$};
+\draw [black] (16,-22.7) circle (2.4);
+\draw [black] (10.8,-14.4) -- (15.08,-13.39);
+\draw (10.04,-14.82) node [left] {$Start$};
+\fill [black] (15.08,-13.39) -- (14.19,-13.09) -- (14.42,-14.06);
+\draw [black] (21,-12.7) -- (37.5,-12.7);
+\fill [black] (37.5,-12.7) -- (36.7,-12.2) -- (36.7,-13.2);
+\draw (29.25,-12.2) node [above] {$e,e\mbox{ }->\mbox{ }$\#};
+\draw [black] (42.09,-15.24) -- (47.51,-23.86);
+\fill [black] (47.51,-23.86) -- (47.5,-22.92) -- (46.66,-23.45);
+\draw (44.17,-20.85) node [left] {$x,e\mbox{ }->\mbox{ }x$};
+\draw [black] (41.114,-39.886) arc (-173.39227:-234.59752:12.95);
+\fill [black] (41.11,-39.89) -- (41.52,-39.03) -- (40.53,-39.15);
+\draw (41.42,-32.14) node [left] {$x,e\mbox{ }->\mbox{ }x$};
+\draw [black] (38.8,-42.8) -- (19,-42.8);
+\fill [black] (19,-42.8) -- (19.8,-43.3) -- (19.8,-42.3);
+\draw (28.9,-42.3) node [above] {$y,x\mbox{ }->\mbox{ }e$};
+\draw [black] (14.408,-32.336) arc (85.18589:-36.29798:5.442);
+\fill [black] (14.41,-32.34) -- (15.16,-32.9) -- (15.25,-31.9);
+\draw (19.63,-34.49) node [right] {$y,x\mbox{ }->\mbox{ }e$};
+\draw [black] (50.282,-29.147) arc (15.42393:-63.41372:10.94);
+\fill [black] (50.28,-29.15) -- (50.01,-30.05) -- (50.98,-29.79);
+\draw (50.46,-37.5) node [right] {$e,e\mbox{ }->\mbox{ }e$};
+\draw [black] (13.052,-43.091) arc (-100.14039:-210.9717:5.445);
+\fill [black] (13.05,-43.09) -- (12.35,-42.46) -- (12.18,-43.44);
+\draw (8.33,-41) node [left] {$e,e\mbox{ }->\mbox{ }e$};
+\draw [black] (12.71,-30.16) -- (14.79,-25.44);
+\fill [black] (14.79,-25.44) -- (14.01,-25.97) -- (14.92,-26.38);
+\draw (14.48,-28.78) node [right] {$y,$ \# $\mbox{ }->\mbox{ }e$};
+\end{tikzpicture}
+\end{center}
+
+For the xxy this automata will not work, because it will stuckwa.\\
+For the xxyyyy this automata will come its final state so that xxyyyy will be accepted.
 \end{tcolorbox}
 
 \paragraph{d)} Given two languages $L'$ and $L$ as $L'=\{w \mid \; w\in L; \; |w|=4n+2 \; for\; n\in \mathbb{N} \}$
@@ -387,8 +483,7 @@ If $L$ is a CFL, show that $L'$ is also a CFL by constructing an automaton for $
 
 
 \begin{tcolorbox}
- answer here ...
-\vspace{8cm} % remove this after your answer
+I worked hard but can not solve this problem...
 \end{tcolorbox}
 
 
