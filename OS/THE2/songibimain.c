@@ -2,42 +2,15 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-sem_t newlock;
-pthread_mutex_t antmutex[GRIDSIZE * GRIDSIZE];
-pthread_mutex_t lockvar[GRIDSIZE * GRIDSIZE];
+sem_t semaphore[GRIDSIZE * GRIDSIZE];
+sem_t mutex;
 
 struct anttype {
 
   int x,y,id,timer;
 
 };
-void lavoboacacagi(int oldy,int oldx, int cnt[]){
 
-  if(cnt[1])
-    pthread_mutex_unlock(&lockvar[ (oldy) * GRIDSIZE + oldx - 1]);
-
-  if(cnt[2])
-    pthread_mutex_unlock(&lockvar[ (oldy) * GRIDSIZE + oldx + 1]);
-
-  if(cnt[3])
-    pthread_mutex_unlock(&lockvar[ (oldy - 1) * GRIDSIZE + oldx]);
-
-  if(cnt[4])
-    pthread_mutex_unlock(&lockvar[ (oldy + 1) * GRIDSIZE + oldx]);
-
-  if(cnt[5])
-    pthread_mutex_unlock(&lockvar[ (oldy - 1) * GRIDSIZE + oldx - 1]);
-
-  if(cnt[6])
-    pthread_mutex_unlock(&lockvar[ (oldy - 1) * GRIDSIZE + oldx + 1]);
-
-  if(cnt[7])
-    pthread_mutex_unlock(&lockvar[ (oldy + 1) * GRIDSIZE + oldx - 1]);
-
-  if(cnt[8])
-    pthread_mutex_unlock(&lockvar[ (oldy + 1) * GRIDSIZE + oldx + 1]);
-
-}
 int emptyoryemek(int y, int x, int cord[], int cnt[],int controller){
 
   int returnval = 0;
@@ -188,12 +161,11 @@ int emptyoryemek(int y, int x, int cord[], int cnt[],int controller){
 void *func(void *ant){
   int start = time(NULL);
   struct anttype *my_ant = (struct anttype*)ant;
-  char oldstate;
   char mystate = '1';
   int x = my_ant->x;
   int y = my_ant->y;
   int myid = my_ant->id;
-  sem_post(&newlock);
+  sem_post(&mutex);
 
   //printf("Thread ID: %d x = %d y = %d\n", my_ant->id, my_ant->x, my_ant->y);
   char c;
@@ -211,89 +183,59 @@ void *func(void *ant){
 
     int cord[2];
 
-
-    if(myid < getSleeperN()){
-      if(mystate == 'P'){
-        putCharTo(y, x, '$');
-        oldstate = 'P';
-      }
-      else if(mystate == '1' || mystate == 'T'){
-        putCharTo(y, x, 'S');
-        oldstate = '1';
-      }
-
-      pthread_mutex_lock(&antmutex[myid]);
-      pthread_mutex_unlock(&antmutex[myid]);
-      mystate = oldstate;
-      putCharTo(y,x,mystate);
-    }
-
-    //sem_wait(&mutex);
+    sem_wait(&mutex);
     if(x - 1 >= 0){
-      if(pthread_mutex_trylock(&lockvar[ (y) * GRIDSIZE + x - 1])){
-        continue;
-      }
+      sem_wait(&semaphore[ (y) * GRIDSIZE + x - 1]);
       cnt[1] = 1;
     }
 
     if(x + 1 < GRIDSIZE){
-      if(pthread_mutex_trylock(&lockvar[ (y) * GRIDSIZE + x + 1])){
-        lavoboacacagi(oldy,oldx,cnt);
-        continue;
-      }
+      sem_wait(&semaphore[ (y) * GRIDSIZE + x + 1]);
       cnt[2] = 1;
     }
 
     if(y - 1 >= 0){
-      if(pthread_mutex_trylock(&lockvar[ (y - 1) * GRIDSIZE + x])){
-        lavoboacacagi(oldy,oldx,cnt);
-        continue;
-      }
+      sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x]);
       cnt[3] = 1;
     }
 
     if(y + 1 < GRIDSIZE){
-      if(pthread_mutex_trylock(&lockvar[ (y + 1) * GRIDSIZE + x])){
-        lavoboacacagi(oldy,oldx,cnt);
-        continue;
-      }
+      sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x]);
       cnt[4] = 1;
     }
 
     if(x - 1 >= 0 && y - 1 >= 0){
-      if(pthread_mutex_trylock(&lockvar[ (y - 1) * GRIDSIZE + x - 1])){
-        lavoboacacagi(oldy,oldx,cnt);
-        continue;
-      }
+      sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x - 1]);
       cnt[5] = 1;
     }
 
     if(x + 1 < GRIDSIZE & y - 1 >= 0){
-      if(pthread_mutex_trylock(&lockvar[ (y - 1) * GRIDSIZE + x + 1])){
-        lavoboacacagi(oldy,oldx,cnt);
-        continue;
-      }
+      sem_wait(&semaphore[ (y - 1) * GRIDSIZE + x + 1]);
       cnt[6] = 1;
     }
 
     if(x - 1 >= 0 && y + 1 < GRIDSIZE){
-      if(pthread_mutex_trylock(&lockvar[ (y + 1) * GRIDSIZE + x - 1])){
-        lavoboacacagi(oldy,oldx,cnt);
-        continue;
-      }
+      sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x - 1]);
       cnt[7] = 1;
     }
 
     if(x + 1 < GRIDSIZE && y + 1 < GRIDSIZE){
-        if(pthread_mutex_trylock(&lockvar[ (y + 1) * GRIDSIZE + x + 1])){
-          lavoboacacagi(oldy,oldx,cnt);
-          continue;
-        }
+        sem_wait(&semaphore[ (y + 1) * GRIDSIZE + x + 1]);
         cnt[8] = 1;
     }
-    //sem_post(&mutex);
+    sem_post(&mutex);
 
-      if(mystate == 'T'){
+
+      if(myid < getSleeperN()){
+        if(mystate == 'P')
+          putCharTo(y, x, '$');
+        else if(mystate == '1' || mystate == 'T')
+          putCharTo(y, x, 'S');
+      }
+
+
+
+      else if(mystate == 'T'){
 
         putCharTo(y, x, '1');
 
@@ -350,7 +292,29 @@ void *func(void *ant){
         }
       }
 
-      lavoboacacagi(oldy, oldx, cnt);
+        if(cnt[1])
+          sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx - 1]);
+
+        if(cnt[2])
+          sem_post(&semaphore[ (oldy) * GRIDSIZE + oldx + 1]);
+
+        if(cnt[3])
+          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx]);
+
+        if(cnt[4])
+          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx]);
+
+        if(cnt[5])
+          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx - 1]);
+
+        if(cnt[6])
+          sem_post(&semaphore[ (oldy - 1) * GRIDSIZE + oldx + 1]);
+
+        if(cnt[7])
+          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx - 1]);
+
+        if(cnt[8])
+          sem_post(&semaphore[ (oldy + 1) * GRIDSIZE + oldx + 1]);
       }
     return 0;
     }
@@ -362,19 +326,15 @@ int main(int argc, char *argv[]) {
     int start = time(NULL);
     int semmax = GRIDSIZE * GRIDSIZE;
 
-    sem_init(&newlock, 0, 1);
-
-    for(int i = 0 ; i < semmax; i++){
-      pthread_mutex_init(&lockvar[i], NULL);
-      pthread_mutex_init(&antmutex[i], NULL);
-    }
+    for(int i = 0; i < semmax; i++)
+      sem_init(&semaphore[i], 0, 1);
+    sem_init(&mutex, 0, 1);
 
     int numberofants = atoi(argv[1]);
     int numberoffoods = atoi(argv[2]);
     int maxsim = atoi(argv[3]);
     struct anttype *antstruct;
     antstruct = malloc(sizeof(struct anttype));
-    //antsemaphore = malloc(numberofants * sizeof(sem_t));
 
     //printf("%d %d %d\n", numberofants, numberoffoods, maxsim);
     //////////////////////////////
@@ -401,14 +361,13 @@ int main(int argc, char *argv[]) {
         putCharTo(a, b, 'o');
     }
 
-    for(int i = 0; i < semmax; i++)
-       pthread_mutex_lock(&lockvar[i]);
+
     for (i = 0; i < numberofants; i++) {
         do {
           a = rand() % GRIDSIZE;
           b = rand() % GRIDSIZE;
         }while (lookCharAt(a,b) != '-');
-        sem_wait(&newlock);
+        sem_wait(&mutex);
         putCharTo(a, b, '1');
         antstruct->x = b;
         antstruct->y = a;
@@ -416,9 +375,6 @@ int main(int argc, char *argv[]) {
         antstruct->timer = maxsim;
         pthread_create(ant+i, NULL, func, (void*)antstruct);
     }
-    for(int i = 0; i < semmax; i++)
-       pthread_mutex_unlock(&lockvar[i]);
-
 
 
     //printf("ant.x = %d ant.y = %d ant.id = %d\n",antstruct.x,antstruct.y,antstruct.id);
@@ -434,17 +390,17 @@ int main(int argc, char *argv[]) {
     while (TRUE) {
 
         int now = time(NULL);
-        if(now - start > maxsim){
-          for(int i = 0; i < getSleeperN(); i++)
-            pthread_mutex_unlock(&antmutex[i]);
+        if(now - start > maxsim)
           break;
-        }
-          for(int i = 0; i < semmax; i++)
-            pthread_mutex_lock(&lockvar[i]);
-        	drawWindow();
-          for(int i = 0; i < semmax; i++)
-            pthread_mutex_unlock(&lockvar[i]);
-
+        sem_wait(&mutex);
+        for(int i = 0; i < GRIDSIZE; i++)
+          for(int j = 0; j < GRIDSIZE; j++)
+            sem_wait(&semaphore[ i * GRIDSIZE + j ]);
+        drawWindow();
+        sem_post(&mutex);
+        for(int i = 0; i < GRIDSIZE; i++)
+          for(int j = 0; j < GRIDSIZE; j++)
+            sem_post(&semaphore[ i * GRIDSIZE + j ]);
         c = 0;
         c = getch();
 
@@ -456,16 +412,10 @@ int main(int argc, char *argv[]) {
             setDelay(getDelay()-10);
         }
         if (c == '*') {
-            if(numberofants > getSleeperN()){
             setSleeperN(getSleeperN()+1);
-            pthread_mutex_lock(&antmutex[getSleeperN()-1]);
-          }
         }
         if (c == '/') {
-            if(getSleeperN() > 0){
             setSleeperN(getSleeperN()-1);
-            pthread_mutex_unlock(&antmutex[getSleeperN()]);
-          }
         }
         usleep(DRAWDELAY);
 
@@ -482,4 +432,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
