@@ -454,6 +454,8 @@ int main(int argc, char *argv[]) {
 
         if (c == 'q' || c == ESC){
           finishhim = 1;
+          for(int i = 0; i < getSleeperN(); i++)
+            pthread_mutex_unlock(&antmutex[i]);
           break;
         }
         if (c == '+') {
