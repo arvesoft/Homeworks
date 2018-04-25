@@ -5,6 +5,8 @@
 sem_t newlock;
 pthread_mutex_t antmutex[GRIDSIZE * GRIDSIZE];
 pthread_mutex_t lockvar[GRIDSIZE * GRIDSIZE];
+pthread_mutex_t beklet;
+int finishhim = 0;
 
 struct anttype {
 
@@ -201,11 +203,12 @@ void *func(void *ant){
 
     int cnt[9] = {0,0,0,0,0,0,0,0,0};
     int now = time(NULL);
-    if(now - start > my_ant->timer)
+    if(now - start > my_ant->timer || finishhim)
       break;
 
     int randomtime = rand() % 10;
     usleep(1000 * (getDelay() + randomtime));
+
     int oldx = x, oldy = y;
     int control = 1;
 
@@ -223,7 +226,6 @@ void *func(void *ant){
       }
 
       pthread_mutex_lock(&antmutex[myid]);
-      pthread_mutex_unlock(&antmutex[myid]);
       mystate = oldstate;
       putCharTo(y,x,mystate);
     }
@@ -291,11 +293,12 @@ void *func(void *ant){
         }
         cnt[8] = 1;
     }
+
+    pthread_mutex_lock(&beklet);
+    pthread_mutex_unlock(&beklet);
     //sem_post(&mutex);
 
       if(mystate == 'T'){
-
-        putCharTo(y, x, '1');
 
         if(emptyoryemek(y,x,cord,cnt,0)){
           y = cord[0];
@@ -308,7 +311,6 @@ void *func(void *ant){
       }
       else if(mystate == 'P'){
 
-        putCharTo(y, x, 'P');
 
         if(emptyoryemek(y,x,cord,cnt,1)){
           if(emptyoryemek(y,x,cord,cnt,0)){
@@ -329,8 +331,6 @@ void *func(void *ant){
 
 
       else if(mystate == '1'){
-
-        putCharTo(y, x, '1');
         if(emptyoryemek(y,x,cord,cnt,1)){
           y = cord[0];
           x = cord[1];
@@ -368,6 +368,7 @@ int main(int argc, char *argv[]) {
       pthread_mutex_init(&lockvar[i], NULL);
       pthread_mutex_init(&antmutex[i], NULL);
     }
+    pthread_mutex_init(&beklet, NULL);
 
     int numberofants = atoi(argv[1]);
     int numberoffoods = atoi(argv[2]);
@@ -439,16 +440,22 @@ int main(int argc, char *argv[]) {
             pthread_mutex_unlock(&antmutex[i]);
           break;
         }
-          for(int i = 0; i < semmax; i++)
-            pthread_mutex_lock(&lockvar[i]);
+
+            pthread_mutex_lock(&beklet);
+
+            usleep(3000);
+
         	drawWindow();
-          for(int i = 0; i < semmax; i++)
-            pthread_mutex_unlock(&lockvar[i]);
+
+            pthread_mutex_unlock(&beklet);
 
         c = 0;
         c = getch();
 
-        if (c == 'q' || c == ESC) break;
+        if (c == 'q' || c == ESC){
+          finishhim = 1;
+          break;
+        }
         if (c == '+') {
             setDelay(getDelay()+10);
         }
@@ -458,7 +465,6 @@ int main(int argc, char *argv[]) {
         if (c == '*') {
             if(numberofants > getSleeperN()){
             setSleeperN(getSleeperN()+1);
-            pthread_mutex_lock(&antmutex[getSleeperN()-1]);
           }
         }
         if (c == '/') {
@@ -467,7 +473,7 @@ int main(int argc, char *argv[]) {
             pthread_mutex_unlock(&antmutex[getSleeperN()]);
           }
         }
-        usleep(DRAWDELAY);
+        usleep(DRAWDELAY-3000);
 
         // each ant thread have to sleep with code similar to this
         //usleep(getDelay() * 1000 + (rand() % 5000));
@@ -482,4 +488,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
