@@ -1,0 +1,136 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{amsmath}
+
+
+\usepackage[hmargin=3cm,vmargin=6.0cm]{geometry}
+%\topmargin=0cm
+\topmargin=-2cm
+\addtolength{\textheight}{6.5cm}
+\addtolength{\textwidth}{2.0cm}
+%\setlength{\leftmargin}{-5cm}
+\setlength{\oddsidemargin}{0.0cm}
+\setlength{\evensidemargin}{0.0cm}
+
+%misc libraries goes here
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+
+\begin{document}
+
+\section*{Student Information } 
+%Write your full name and id number between the colon and newline
+%Put one empty space character after colon and before newline
+Full Name :  Nazır Bilal Yavuz\\
+Id Number :  2099471\\
+
+% Write your answers below the section tags
+\section*{Answer 1}
+
+\subsection*{a.}
+
+$S \rightarrow aSXaX$  ------ (R1) \\
+$S \rightarrow bSXbX$  ------ (R2) \\
+$S \rightarrow c$  ------ (R3) \\ 
+$X \rightarrow aX$  ------ (R4) \\
+$X \rightarrow bX$  ------ (R5) \\
+$X \rightarrow e$  ------ (R6) \\
+\\
+$(p,a,e),(p,a)$ for each $a \in \sum$  ------ ($\bigtriangleup1$)\\\\
+$(p,e,aSXaX),(p,S)$  ------ ($\bigtriangleup2$)\\\\
+$(p,e,bSXbX),(p,S)$  ------ ($\bigtriangleup3$)\\\\
+$(p,e,c),(p,S)$  ------ ($\bigtriangleup4$)\\\\
+$(p,e,aX),(p,X)$  ------ ($\bigtriangleup5$)\\\\
+$(p,e,bX),(p,X)$  ------ ($\bigtriangleup6$)\\\\
+$(p,e,e),(p,X)$  ------ ($\bigtriangleup7$)\\\\
+$(p,e,S),(p,e)$  ------ ($\bigtriangleup8$)\\\\
+
+\subsection*{b.}
+
+
+
+\section*{Answer 2}
+
+\subsection*{a.}
+We can define the Turing Machine which computes $f(x)$ as $M_1 = (K_1,\Sigma_1,\delta_1, s, H_1)$, where
+$K_1 = \{s,e_0,o_0,e_1,e_2,e_3,o_1,o_2$, $\Sigma_1 = \{\sqcup,1,\triangleright\}$, $H_1 = \{h_1\}
+$ and the transition function is defined as follows;
+
+\begin{align*}
+&\delta_1(s,\sqcup) = (e,\sqcup,\rightarrow) \\\\
+&\delta_1(e_0,1) = (o_0,x,\rightarrow) && &\delta_1(o_0,1) = (e_0,x,\rightarrow) \\
+&\delta_1(o_0,\sqcup) = (o_1,\sqcup,\leftarrow) && &\delta_1(e_0,\sqcup) = (e_1,\sqcup,\leftarrow) \\
+&\delta_1(o_1,x) = (o_1,x,\leftarrow) && &\delta_1(e_1,x) = (e_1,x,\leftarrow) \\
+&\delta_1(o_1,\sqcup) = (o_2,\sqcup,\rightarrow) && &\delta_1(e_1,\sqcup) = (e_2,\sqcup,\rightarrow)\\
+&\delta_1(o_2,x) = (o_2,1,\rightarrow) && &\delta_1(e_2,x) = (e_3,1,\rightarrow) \\
+&\delta_1(o_2,\sqcup) = (h_1,1,\rightarrow) && &\delta_1(e_3,x) = (e_3,x,\rightarrow) \\
+& &&  &\delta_1(e_3,\sqcup) = (e_4,\sqcup,\leftarrow) \\
+& &&  &\delta_1(e_4,x) = (e_5,\sqcup,\leftarrow) \\
+& &&  &\delta_1(e_5,x) = (e_5,x,\leftarrow) \\
+& &&  &\delta_1(e_5,1) = (e_3,1,\rightarrow) \\
+& &&  &\delta_1(e_3,\sqcup) = (h_1,\sqcup,\rightarrow)
+\end{align*}
+\\
+In this TM first go 1 from $\sqcup$ and check that it is even or odd while checking fill tape with $x$. \\\\
+If it is odd go to the first $x$ and make all $x$ 1 and when you see $\sqcup$ make it 1 too. \\
+This means $f(x) = x + 1$\\\\
+If it is odd go to the first $x$ make it 1 and go right until find $\sqcup$ .\\
+When you find $\sqcup$ go one left which is righmost $x$.
+After that, make this $x$ to 1.\\
+After that go leftmost $x$ and make it 1.\\
+Follow this pattern...\\
+This means $f(x) = x / 2$
+
+
+\section*{Answer 3}
+
+If we can not go to the left of the Turing Machine that is not completely Turing Machine. We can not use full capability of Turing Machine so that this type of Turing Machine looks like DFA more than Turing Machine. This type of Turing Machines accept regular languages.
+
+
+\section*{Answer 4}
+
+
+\subsection*{a.}
+
+\subsection*{b.}
+
+\subsection*{c.}
+
+\subsection*{d.}
+
+Initially, we are going to assume the input is written in the tape in the form $\triangleright\underline{\sqcup}w$.
+
+Front is equal to
+
+\subsection*{e.}
+
+
+
+
+\section*{Answer 5}
+
+\subsection*{a.}
+
+\subsection*{b.}
+
+
+
+\section*{Answer 6}
+
+\subsection*{a.}
+
+\subsection*{b.}
+
+\subsection*{c.}
+
+\subsection*{d.}
+
+
+%Do not submit solutions for Question 7, yet do solve it.
+
+
+\end{document}
+
+​
+
