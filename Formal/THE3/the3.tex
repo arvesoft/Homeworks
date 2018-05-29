@@ -148,8 +148,8 @@ $H=$ set of final states
 
 Queue Based Turing Machine configuration is $(q, w, u)$. \\
 The current state is $q$.\\
-$w$ is the which $\wp_{(front symbol)}$ shows.\\
-$u$ is the which $\clubsuit_{(rear symbol)}$ shows.\\
+$w$ is the which $\wp_{(front~symbol)}$ shows.\\
+$u$ is the which $\clubsuit_{(rear~symbol)}$ shows.\\
 
 \subsection*{c.}
 
@@ -162,7 +162,7 @@ After that right of head comes.\\
 After that $\aleph$.\\
 After that left of head comes.\\
 For example $abc$ $d_{head}$ $ef$ is in Queue based TM equals to $def$ $\aleph$ $abc$\\\\
-To make $d \rightarrow x, R$ dequeue front and enqueue x. After that dequeue front and enqueue symbol which is dequeued. At final state it looks like $ef$ $\aleph$ $abcx$.\\
+To make $d \rightarrow x, R$ dequeue front and enqueue x. At final state it looks like $ef$ $\aleph$ $abcx$.\\
 To make $d \leftarrow x, R$ dequeue front and enqueue x. After that dequeue front and enqueue symbol which is dequeued. At final state it looks like $cxef$ $\aleph$ $ab$.\\\\
 To access the rear element in the queue-based TM we can make $d \leftarrow d, L$\\
 Front element in the queue-based TM is head of standard TM.
@@ -173,6 +173,7 @@ Front element in the queue-based TM is head of standard TM.
 
 
 \section*{Answer 5}
+
 
 \subsection*{a.}
 
@@ -210,8 +211,6 @@ Front element in the queue-based TM is head of standard TM.
 \draw (65.94,-31.07) node [left] {$asd$};
 \end{tikzpicture}
 \end{center}
-
-
 $M_1, M_2, M_3$ are TMs.\\
 $M_1$ is for $a^n$\\
 $M_2$ is for $b^{2^n}$.\\
@@ -220,6 +219,20 @@ $M_3$ is for $c^{3n}$.\\
 
 
 \subsection*{b.}
+
+For $M_1$:\\
+$ S \rightarrow A~|~e $\\
+$ A \rightarrow AA~|~a~|~e$\\\\
+For $M_2$:\\
+$S  \rightarrow QaZ$\\
+$Q  \rightarrow QM~|~e$\\
+$Ma \rightarrow aaM$\\
+$MZ \rightarrow Z$\\
+$Z  \rightarrow e$\\\\
+For $M_3$\\
+$S \rightarrow CCC~|~e$
+$CCC \rightarrow CCCCCC~|~ccc~|e$\\\\
+But I could not figure out how to combine them.
 
 
 
