@@ -1,0 +1,10 @@
+1- sudo ufw deny from 10.0.2.5 to any port 23
+   sudo ufw deny from 10.0.2.4 to any port 23
+
+2- nmacun.com -> sudo ufw deny out to 89.163.146.184
+
+3- sudo ufw deny out 443
+
+4- 
+-A ufw-before-output -p icmp -m state --state NEW,ESTABLISHED,RELATED -j DROP
+-A ufw-before-output -p icmp -m state --state ESTABLISHED,RELATED -j DROP

@@ -1,0 +1,9 @@
+cores
+Triangle size  = 0
+Mesh size  = 1
+Mesh face size  = 2
+Camera size = 1
+
+Camera id = 0
+Cam position
+X = 0 | Y = 5 | Z = 25
