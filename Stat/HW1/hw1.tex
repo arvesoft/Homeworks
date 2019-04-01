@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{amsmath}
+
+
+\usepackage[hmargin=3cm,vmargin=6.0cm]{geometry}
+%\topmargin=0cm
+\topmargin=-2cm
+\addtolength{\textheight}{6.5cm}
+\addtolength{\textwidth}{2.0cm}
+%\setlength{\leftmargin}{-5cm}
+\setlength{\oddsidemargin}{0.0cm}
+\setlength{\evensidemargin}{0.0cm}
+
+%misc libraries goes here
+\usepackage{tikz}
+
+\begin{document}
+
+\section*{Student Information } 
+%Write your full name and id number between the colon and newline
+%Put one empty space character after colon and before newline
+Full Name : Nazır Bilal Yavuz \\
+Id Number :  2099471\\
+
+
+
+\section*{\centerline{CENG222 Assignment 1}}
+
+\section*{Answer 1}
+
+Lets say $P\{ A \} = 0.2$ and $P\{ B \} = 0.3$. \\
+$P\{ A \cap B \} = 0.2 * 0.3 = 0.06$ because they are independent. \\
+$P\{ A \cup B \} = 0.2 + 0.3 - 0.06 = 0.44$ \\
+$P\{ A \cap B \}  / P\{ A \cup B \}  = 0.06 / 0.44$\\ 
+$ = 0.13636$
+
+\section*{Answer 2}
+
+Lets say $P\{ S \} $ means steroid user and $P\{ N \} $ means test is negative.\\
+
+$P\{ S \}  = 0.05$, $P\{ \overline{N} | S \} = 0.9 $, $P\{ \overline{N} | \overline{S} \} = 0.02 $ \\
+
+We know that, by using complement rule; $P\{ \overline{S} \} = 0.95 $, $P\{ N | S \} = 0.1 $, $P\{ N | \overline{S} \}  =  0.98$.
+
+Question ask that $P\{ S | N \}$\\
+
+By using Bayes and Law of Total Probability rules we get that:\\
+
+ $P\{ S | N \} = P\{ N | S \} * P\{ S \} / (P\{ N | S \} * P\{ S \} + P\{ N | \overline{S} \} * P\{ \overline{S} \})$ \\
+ 
+= $0.1 * 0.05 / (0.1 * 0.05 + 0.98 * 0.95)$\\
+
+= $0.005341$
+
+\section*{Answer 3}
+
+In this solution, first we must choose n of 5; after that we must choose 4-n of 4 \\
+For the solution we can calculate select 0 and 1 databases and we can extract them from 1.\\
+
+Solution is = \\
+
+$1 -$  ${5}\choose{0}$ $*$ $ {4}\choose{4}$ $/$  ${9}\choose{4}$ $-$ ${5}\choose{1}$ $*$ $ {4}\choose{3}$ $/$  ${9}\choose{4}$\\
+
+= $1 - 1 * 1 / 126 - 5 * 4 / 126$
+
+= $1 - 21/126$
+
+= $105/126$ 
+
+\end{document}

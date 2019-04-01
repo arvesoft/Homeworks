@@ -1,0 +1,140 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{amsmath}
+
+
+\usepackage[hmargin=3cm,vmargin=6.0cm]{geometry}
+%\topmargin=0cm
+\topmargin=-2cm
+\addtolength{\textheight}{6.5cm}
+\addtolength{\textwidth}{2.0cm}
+%\setlength{\leftmargin}{-5cm}
+\setlength{\oddsidemargin}{0.0cm}
+\setlength{\evensidemargin}{0.0cm}
+
+%misc libraries goes here
+\usepackage{tikz}
+
+\begin{document}
+
+\section*{Student Information } 
+%Write your full name and id number between the colon and newline
+%Put one empty space character after colon and before newline
+Full Name : Nazır Bilal Yavuz \\
+Id Number :  2099471\\
+
+
+
+\section*{\centerline{CENG222 Assignment 2}}
+
+\section*{Answer 1}
+
+
+Probability of more accidents on Friday and probability of more accidents on Thursday are same and we must count if accidents' count are same. We can calculate same accident's probability, substract it from 1 and we must divide it by 2.
+
+Calculate same probability:
+
+For $0: 0.6 * 0.6 = 0.36$
+For $1: 0.2 * 0.2 = 0.04$
+For $2: 0.2 * 0.2 = 0.04$
+
+$0.36 + 0.04 + 0.4 = 0.44$
+
+Substract from 1: $1 - 0.44 = 0.56$
+
+Divide by 2: $0.56 / 2 = 0.28$ 
+
+\section*{Answer 2}
+
+For a)
+
+For at least one hardware failire we can substract P(0,0) from 1.
+
+$1 - 0.52 = 0.48$
+\\\\
+For b)
+
+We know that P(0,0) = 0.52 and we can calculate that:
+
+P(X = 0) = $ 1 - (0.20 + 0.02 + 0.01 + 0.04 + 0.01) = 1 - 0.28 = 0.72$ 
+
+P(Y = 0) = $ 1 - (0.14 + 0.02 + 0.01 + 0.06 + 0.01) = 1 - 0.24 = 0.76$
+
+We must check that: P(0,0) == P(X = 0) * P( Y = 0)
+
+$0.52 \neq 0.72 * 0.76$
+
+So they are not independent.
+
+
+\section*{Answer 3}
+
+
+Expactations:
+
+$E(X) =  -2 * 0.5 + 2 * 0.5 = 0$
+
+$E(Y) =  -1 * 0.8 + 4 * 0.42 = 0$
+\\
+Variances:
+
+$Var(X) =  -2 * -2 * 0.5 + 2 * 2 * 0.5 - 0 = 4$
+
+$Var(Y) =  -1 * -1 * 0.8 + 4 * 4 * 0.2 - 0 = 4$
+\\\\
+Calculate a,b and c part:\\
+For a)
+
+$E(100 * X) = 100 * E(X) = 0$
+
+$Var(100 * X) = 100 * 100 * Var(X) = 40000$
+\\
+For b)
+
+$E(100 * Y) = 100 * E(Y) = 0$
+
+$Var(100 * Y) = 100 * 100 * Var(Y) = 40000$
+\\
+For c)
+
+$E(50 * X + 50 * Y) = 50 * E(X) + 50 * E(Y) = 0$
+
+$Var(50 * X + 50 * Y) = 50 * 50 * Var(X) + 50 * 50 * Var(Y) = 2500 * 4 + 2500 * 4 = 20000$
+
+\section*{Answer 4}
+
+
+For a)
+
+
+For at least 5 file, we can find 0,1,2,3,4 files are damaged and we can substract it from 1.
+
+For 0 = $0.8^{20}$
+
+For 1 = $0.2 *$ ${20}\choose{1}$ $* 0.8^{19}$
+
+For 2 =$0.2^{2} *$ ${20}\choose{2}$ $*0.8^{18}$
+
+For 3 =$0.2^{3} *$ ${20}\choose{3}$ $*0.8^{17}$
+
+For 4 =$0.2^{4} *$ ${20}\choose{4}$ $*0.8^{16}$
+
+We must add them and we must substract them from 1. Referring the "Table A2. Binomial distribution pg(412)" from book result must be $1 - 0.63 = 0.37$.
+\\
+\\
+For b)
+
+In the first 5 file there can be 0,1 and 2 undamaged files.
+
+For 0 =$0.2^{5}$
+
+For 1 =$0.2^{4} *$ ${5}\choose{1}$ $*0.8^{1}$
+
+For 2 =$0.2^{3} *$ ${5}\choose{2}$ $*0.8^{2}$
+
+After adding them result = $0.058$
+
+
+
+\end{document}
