@@ -1,0 +1,9 @@
+attacker: ssh -i ~/.ssh/id_geni_ssh_rsa e2099471@pc3.lan.sdn.uky.edu -p 27771
+
+victim: ssh -i ~/.ssh/id_geni_ssh_rsa e2099471@pc3.lan.sdn.uky.edu -p 27773
+
+user: ssh -i ~/.ssh/id_geni_ssh_rsa e2099471@pc3.lan.sdn.uky.edu -p 27772
+
+ovs: ssh -i ~/.ssh/id_geni_ssh_rsa e2099471@pc3.lan.sdn.uky.edu -p 27770
+
+
